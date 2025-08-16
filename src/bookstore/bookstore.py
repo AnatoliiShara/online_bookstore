@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import List, Optional
 
 from bookstore.models.book import Book
 from bookstore.models.sale import Sale
@@ -17,6 +17,7 @@ from bookstore.storage.json_store import JSONStore
 @dataclass(frozen=True)
 class BookstoreStats:
     """Простий агрегат для відображення статистики у UI/тестах."""
+
     total_titles: int
     active_titles: int
     archived_titles: int

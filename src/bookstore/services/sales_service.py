@@ -3,8 +3,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import List, Optional
 
-from bookstore.errors import BookNotFoundError, OutOfStockError, ValidationError
-from bookstore.models.book import Book
+from bookstore.errors import OutOfStockError, ValidationError
 from bookstore.models.sale import Sale
 from bookstore.repository.book_repository import BookRepository
 from bookstore.storage.json_store import JSONStore
@@ -72,7 +71,7 @@ class SalesService:
     # ───────────────────────────────────────────────────────────────
     # Запити (queries)
 
-    def list_sales(self, *, isbn: Optional[str] = None, limit: int = 100) -> List[Sale]:
+    def list_sales(self, *, isbn: Optional[str] = None, limit: Optional[int] = 100) -> List[Sale]:
         """
         Повертає список транзакцій продажів.
         Опційно фільтрує за ISBN. Останні транзакції — наприкінці (за часом).
@@ -84,7 +83,7 @@ class SalesService:
         if isbn and isbn.strip():
             # Тут ми використовуємо нормалізацію, яка має бути в моделі Sale,
             # щоб не залежати від BookRepository.
-            norm_isbn = Sale._normalize_isbn(isbn) 
+            norm_isbn = Sale._normalize_isbn(isbn)
             sales = [s for s in sales if s.isbn == norm_isbn]
 
         # Сортуємо за часом для стабільності від старих до нових

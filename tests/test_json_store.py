@@ -1,4 +1,3 @@
-from pathlib import Path
 from bookstore.storage.json_store import JSONStore
 
 

@@ -1,14 +1,21 @@
 from decimal import Decimal
+
 import pytest
 
+from bookstore.errors import ValidationError
 from bookstore.models.book import Book
 from bookstore.models.sale import Sale
-from bookstore.errors import ValidationError
 
 
 def test_book_create_and_stock_ops():
-    b = Book(title="Clean Code", author="Robert C. Martin",
-             isbn="978-0132350884", price="12.34", currency="USD", quantity=5)
+    b = Book(
+        title="Clean Code",
+        author="Robert C. Martin",
+        isbn="978-0132350884",
+        price="12.34",
+        currency="USD",
+        quantity=5,
+    )
 
     assert b.price == Decimal("12.34")
     assert b.quantity == 5
@@ -27,8 +34,9 @@ def test_book_invalid_quantity_raises():
 
 
 def test_sale_create_and_totals():
-    s = Sale.create(book_id="abc123", isbn="978-0132350884", qty=2,
-                    unit_price_cents=1234, currency="USD")
+    s = Sale.create(
+        book_id="abc123", isbn="978-0132350884", qty=2, unit_price_cents=1234, currency="USD"
+    )
     assert s.unit_price == Decimal("12.34")
     assert s.total_cents == 2468
     assert s.total == Decimal("24.68")

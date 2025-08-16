@@ -118,6 +118,8 @@ class InventoryService:
         """Увесь каталог (за замовчуванням із архівними)."""
         return self._repo.list_all(include_archived=include_archived)
 
-    def search_books(self, query: str, *, include_archived: bool = False, limit: int = 50) -> List[Book]:
+    def search_books(
+        self, query: str, *, include_archived: bool = False, limit: int = 50
+    ) -> List[Book]:
         """Пошук за назвою/автором/ISBN (case-insensitive)."""
         return self._repo.search(query, include_archived=include_archived, limit=limit)

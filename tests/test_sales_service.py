@@ -1,11 +1,12 @@
-import pytest
 from decimal import Decimal
 
-from bookstore.storage.json_store import JSONStore
+import pytest
+
+from bookstore.errors import OutOfStockError
 from bookstore.repository.book_repository import BookRepository
 from bookstore.services.inventory_service import InventoryService
 from bookstore.services.sales_service import SalesService
-from bookstore.errors import OutOfStockError
+from bookstore.storage.json_store import JSONStore
 
 
 def make_services(tmp_path):
@@ -27,8 +28,9 @@ def test_sell_and_totals(tmp_path):
     """
     inv, sales, repo = make_services(tmp_path)
 
-    inv.add_book(title="Clean Code", author="Uncle Bob",
-                 isbn="978-0132350884", price="10.00", quantity=5)
+    inv.add_book(
+        title="Clean Code", author="Uncle Bob", isbn="978-0132350884", price="10.00", quantity=5
+    )
 
     sale = sales.sell(isbn="978-0132350884", qty=2)
     assert sale.total == Decimal("20.00")
@@ -46,8 +48,7 @@ def test_out_of_stock(tmp_path):
     Очікує виняток OutOfStockError.
     """
     inv, sales, _ = make_services(tmp_path)
-    inv.add_book(title="DDD", author="Evans",
-                 isbn="978-0321125217", price="15.00", quantity=1)
+    inv.add_book(title="DDD", author="Evans", isbn="978-0321125217", price="15.00", quantity=1)
 
     with pytest.raises(OutOfStockError):
         sales.sell(isbn="978-0321125217", qty=5)

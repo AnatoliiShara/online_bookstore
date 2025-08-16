@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from bookstore.bookstore import Bookstore
 
 
@@ -12,8 +13,9 @@ def test_facade_e2e(tmp_path):
     bs = Bookstore(db_path=tmp_path / "db.json")
 
     # Додаємо книгу
-    bs.add_book(title="Refactoring", author="Fowler",
-                isbn="978-0201485677", price="11.00", quantity=2)
+    bs.add_book(
+        title="Refactoring", author="Fowler", isbn="978-0201485677", price="11.00", quantity=2
+    )
 
     # Продаємо один примірник
     bs.sell(isbn="978-0201485677", qty=1)
